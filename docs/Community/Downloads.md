@@ -26,7 +26,7 @@ It is essential that you verify the integrity of release downloads. See [instruc
 
 ## Latest Source Zip Files
 
-{% include downloadsInclude.txt %}
+{% include downloadsInclude.md %}
 
 ## Download Java Jar Files
 From [Maven Central](https://search.maven.org/search?q=g:%20org.apache.datasketches).

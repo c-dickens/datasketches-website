@@ -1,27 +1,6 @@
----
-layout: doc_page
----
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+# Release Process For Java Components
 
-      http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-
-# Release Process For Java Components 
-__NOTES:__
+**NOTES:**
 
 * This process covers major and minor releases only. Bug-fix releases, which increment the third digit, are performed on a A.B.X branch and not on master, but otherwise are similar.
 * Some of these operations can be performed either on the Command-Line or in your IDE, whatever you prefer.
@@ -135,7 +114,7 @@ __NOTES:__
 ### Create Primary Zip Files & Signatures/Hashes
 * You will need the following arguments:
   * Absolute path of target project.basedir on your system
-  * Project.artifactId : datasketches-\<component\> where component is e.g., java, pig, hive,...
+  * Project.artifactId : datasketches-\<component> where component is e.g., java, pig, hive,...
   * GitHub Tag: A.B.0-RC1 (or RCn)
   * Have your GPG passphrase handy -- you may have only a few seconds to enter it!
 * Start a new terminal in the above dist/dev/datasketches/scripts directory on your system:
@@ -148,10 +127,10 @@ __NOTES:__
     * `./bashDeployToDist.sh /Users/\<name\>/dev/git/Apache/datasketches-\<component\> datasketches-\<component\> A.B.0-RC1`
     * Follow the instructions.
     * NOTE: if you get the error "gpg: signing failed: No pinentry":
-        * open .gnupg/gpg-agent.conf
-        * change to: pinentry-program */usr/local/bin/pinentry-tty*
-        * reload the gpg agent in the terminal: `gpg-connect-agent reloadagent /bye` 
-        * restart the *./bashDeployToDist* script
+      * open .gnupg/gpg-agent.conf
+      * change to: pinentry-program _/usr/local/bin/pinentry-tty_
+      * reload the gpg agent in the terminal: `gpg-connect-agent reloadagent /bye`
+      * restart the _./bashDeployToDist_ script
     * Close the terminal
 
 ### Check Primary Zip Files & Signatures/Hashes
@@ -208,12 +187,14 @@ __NOTES:__
 * For external artifacts such as Python or Docker the subdirectory name should be relevant to the type.
 * These must be signed with GPG (.asc) and SHA512 (.sha512)
 
-## Prepare & Send [VOTE] Letter to dev@
+### Prepare & Send \[VOTE] Letter to dev@
+
 * See VoteTemplates directory for a recent example
 * If vote is not successful, fix the problem and repeat above steps.
-* After a successful vote return to __this point__ and continue ...
+* After a successful vote return to **this point** and continue ...
 
-## Prepare & Send [VOTE-RESULT] Letter to dev@
+### Prepare & Send \[VOTE-RESULT] Letter to dev@
+
 * See VoteTemplates directory for a recent example
 * Declare that the vote is closed.
 * Summarize vote results
@@ -254,45 +235,50 @@ __NOTES:__
 * Select "orgapachedatasketches-XXXX" (If more than one make sure you select the right one!)
 * At the top of the window, select "Release"
 * Confirm that the attributes have moved to the "Releases" repository under "Repositories"
-    * Browse to *Releases/org/apache/datasketches/...*
+  * Browse to _Releases/org/apache/datasketches/..._
+
+#### Java Only: Drop any previous Release Candidates that were not used.
 
 ### Java Only: Drop any previous Release Candidates that were not used.
 * On Nexus [repository.apache.org](https://repository.apache.org/) click on Staging Repositories
 * Select "orgapachedatasketches-XXXX" (If more than one make sure you select the right one!)
 * At the top of the window, select "Drop"
 
-### If necessary, update branch *master* from branch *A.B.X*
-If you have gone through more than one Release Candidate, you may have changes that need to be 
-reflected in the master. Use the **git cherry-pick** command for this.  
+#### If necessary, update branch _master_ from branch _A.B.X_
 
-## Finalize Release Documentation
+If you have gone through more than one Release Candidate, you may have changes that need to be reflected in the master. Use the **git cherry-pick** command for this.
 
-### Update Apache Reporter
+### Finalize Release Documentation
+
+#### Update Apache Reporter
+
 * Because of the commit to the `dist/release` branch, you should get an automated email requesting you to update the Apache DataBase about the releaase. The email should point you to the [Apache Committee Report Helper](https://reporter.apache.org/addrelease.html?datasketches). You can choose to go there directly without waiting for the notice, there is only one box to fillout.
 * Update the full name of the component release. For example: `Apache datasketches-memory-1.3.0`
 
-### Create & Document Release Tag on GitHub
+#### Create & Document Release Tag on GitHub
+
 * Open your IDE and switch to the recently created Release Branch A.B.X
 * Find the recently created A.B.0-RCn tag in that branch
 * At that same GitHub ID hash, create a new tag A.B.0 (without the RCn).
 * From the Command Line: Push the new tag to origin:
-    * `git push origin --tags`
-* On the GitHub component site document the release 
+  * `git push origin --tags`
+* On the GitHub component site document the release
 
-### Update Website Downloads.md "Latest Source Zip Files" Table
-* This script assumes that the remote *.../dist/release/datasketches/...* directories are up-to-date with no old releases.  
-* Start a new terminal in the *../dist/dev/datasketches/scripts* directory on your system:
-* Make sure your local website directory is pointing to master and up-to-date. 
+#### Update Website Downloads.md "Latest Source Zip Files" Table
+
+* This script assumes that the remote _.../dist/release/datasketches/..._ directories are up-to-date with no old releases.
+* Start a new terminal in the _../dist/dev/datasketches/scripts_ directory on your system:
+* Make sure your local website directory is pointing to master and up-to-date.
 * Run the following with the argument specifying the location of your local website directory:
-    * `./createDownloadsInclude.sh /Users/\<name\>/ ... /datasketches-website`
+  * `./createDownloadsInclude.sh /Users/\<name\>/ ... /datasketches-website`
 * When this is done, be sure to commit the changes to the website.
 
 ### Update Website Documentation (if new functionality)
 
-### Prepare Announce Letter to dev@
 * ASF requests that you wait 24 hours to publish Announce letter to allow the propagation to mirrors.
 * Use recent template
 * Summarize vote results
 
-## Update These Instructions
+### Update These Instructions
+
 * If you have updated this file or any of the scripts, please update this file on the [website](https://datasketches.apache.org/docs/Community/ReleaseProcessForJavaComponents.html) and dist/dev/datasketches for the scripts.
